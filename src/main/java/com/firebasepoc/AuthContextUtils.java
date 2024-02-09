@@ -6,6 +6,9 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 public class AuthContextUtils {
+    public enum UserType {
+        ANONYMOUS
+    }
     public static String getCurrentUserEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
@@ -14,6 +17,6 @@ public class AuthContextUtils {
                 return jwt.getClaimAsString("email");
             }
         }
-        return "anonymous";
+        return String.valueOf(UserType.ANONYMOUS);
     }
 }
