@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FirebasePocApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FirebasePocApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FirebasePocApplication.class, args);
+    }
 
 }
