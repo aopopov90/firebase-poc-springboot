@@ -1,6 +1,7 @@
 package com.firebasepoc;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,5 +28,17 @@ public class TestController {
     @GetMapping("/is-admin")
     public ResponseEntity<Boolean> isAdmin() {
         return ResponseEntity.ok(AuthContextUtils.isAdmin());
+    }
+
+    @GetMapping("/admin-only")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<String> adminOnly() {
+        return ResponseEntity.ok("Hello, " + AuthContextUtils.getCurrentUserEmail());
+    }
+
+    @GetMapping("/editor-only")
+    @PreAuthorize("hasAuthority('ROLE_EDITOR')")
+    public ResponseEntity<String> editorOnly() {
+        return ResponseEntity.ok("Hello, " + AuthContextUtils.getCurrentUserEmail());
     }
 }

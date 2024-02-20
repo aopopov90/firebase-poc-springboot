@@ -15,17 +15,25 @@ public class RoleService {
     }
 
     public void grantAdminRole(String email) throws FirebaseAuthException {
-        setRole(email, "admin", true);
+        setRole(email, "role_admin", true);
     }
 
     public void revokeAdminRole(String email) throws FirebaseAuthException {
-        setRole(email, "admin", false);
+        setRole(email, "role_admin", false);
+    }
+
+    public void grantEditorRole(String email) throws FirebaseAuthException {
+        setRole(email, "role_editor", true);
+    }
+
+    public void revokeEditorRole(String email) throws FirebaseAuthException {
+        setRole(email, "role_editor", false);
     }
 
     private void setRole(String email, String role, boolean value) throws FirebaseAuthException {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(role, value);
         String uid = firebaseConfig.firebaseApp().getUserByEmail(email).getUid();
-        firebaseConfig.firebaseApp().setCustomUserClaims(uid, claims);
+        Map<String, Object> existingClaims = new HashMap<>(firebaseConfig.firebaseApp().getUser(uid).getCustomClaims());
+        existingClaims.put(role, Boolean.valueOf(value));
+        firebaseConfig.firebaseApp().setCustomUserClaims(uid, existingClaims);
     }
 }
